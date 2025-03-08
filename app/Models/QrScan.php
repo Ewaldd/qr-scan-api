@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\QrScanService;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,11 @@ class QrScan extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getQrScan(): string
+    {
+        $qrScanService = new QrScanService();
+        return $qrScanService->getUrlForQrScan($this);
     }
 }

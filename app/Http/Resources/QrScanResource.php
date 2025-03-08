@@ -18,6 +18,7 @@ class QrScanResource extends JsonResource
             'id' => $this->id,
             'link' => $this->link,
             'description' => $this->description,
+            'qr_scan_link' => $this->getQrScan()
         ];
     }
 }

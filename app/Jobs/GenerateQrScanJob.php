@@ -7,6 +7,7 @@ use App\Services\QrScanService;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\App;
 
 class GenerateQrScanJob implements ShouldQueue, ShouldBeUnique
 {
@@ -16,9 +17,9 @@ class GenerateQrScanJob implements ShouldQueue, ShouldBeUnique
      * Create a new job instance.
      */
     public function __construct(
-        public QrScan $qrScan,
+        public QrScan        $qrScan,
         public QrScanService $qrScanService = new QrScanService(),
-        public bool $isNew = true
+        public bool          $isNew = true
     )
     {
         //
@@ -42,6 +43,10 @@ class GenerateQrScanJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle(): void
     {
+        if (App::runningInConsole()) {
+            return;
+        }
+
         info('Generating qr code for: ' . $this->qrScan->id);
         $this->qrScanService->generateQrScan($this->qrScan);
     }

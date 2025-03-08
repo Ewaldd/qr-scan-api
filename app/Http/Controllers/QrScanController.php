@@ -2,34 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QrScanResource;
 use App\Models\QrScan;
 use App\Http\Requests\StoreQrScanRequest;
 use App\Http\Requests\UpdateQrScanRequest;
+use App\Services\QrScanService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class QrScanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        public QrScanService $qrScanService = new QrScanService()
+    )
     {
-        //
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $qrScans = $this->qrScanService->getScansForUser();
+
+        return response()->json(QrscanResource::collection($qrScans), Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreQrScanRequest $request)
+    public function store(StoreQrScanRequest $request): JsonResponse
     {
-        //
+        $qrScan = $this->qrScanService->createQrScan($request->validated());
+
+        return response()->json(new QrScanResource($qrScan), Response::HTTP_CREATED);
     }
 
     /**

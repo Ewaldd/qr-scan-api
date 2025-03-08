@@ -11,7 +11,7 @@ class StoreQrScanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreQrScanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'link' => ['required', 'url'],
+            'description' => ['required', 'string'],
         ];
     }
 }

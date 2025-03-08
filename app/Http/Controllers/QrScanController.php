@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QrScans\DestroyQrScanRequest;
+use App\Http\Requests\QrScans\ShowQrScanRequest;
+use App\Http\Requests\QrScans\StoreQrScanRequest;
+use App\Http\Requests\QrScans\UpdateQrScanRequest;
 use App\Http\Resources\QrScanResource;
 use App\Models\QrScan;
-use App\Http\Requests\StoreQrScanRequest;
-use App\Http\Requests\UpdateQrScanRequest;
 use App\Services\QrScanService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -31,7 +33,7 @@ class QrScanController extends Controller
      */
     public function store(StoreQrScanRequest $request): JsonResponse
     {
-        $qrScan = $this->qrScanService->createQrScan($request->validated());
+        $qrScan = $this->qrScanService->create($request->validated());
 
         return response()->json(new QrScanResource($qrScan), Response::HTTP_CREATED);
     }
@@ -39,32 +41,28 @@ class QrScanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(QrScan $qrScan)
+    public function show(QrScan $qrScan, ShowQrScanRequest $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(QrScan $qrScan)
-    {
-        //
+        return response()->json(new QrScanResource($qrScan), Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateQrScanRequest $request, QrScan $qrScan)
+    public function update(UpdateQrScanRequest $request, QrScan $qrScan): JsonResponse
     {
-        //
+        $qrScan = $this->qrScanService->update($qrScan, $request->validated());
+
+        return response()->json(new QrScanResource($qrScan), Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(QrScan $qrScan)
+    public function destroy(DestroyQrScanRequest $request, QrScan $qrScan)
     {
-        //
+        $qrScan->delete();
+
+        return response()->json(['message' => 'QrScan deleted successful'], Response::HTTP_OK);
     }
 }

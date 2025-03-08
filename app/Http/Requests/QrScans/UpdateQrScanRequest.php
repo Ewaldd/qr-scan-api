@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\QrScans;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreQrScanRequest extends FormRequest
+class UpdateQrScanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->id === $this->route('qr_scan')->user_id;
     }
 
     /**
@@ -22,8 +22,8 @@ class StoreQrScanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'link' => ['required', 'url'],
-            'description' => ['required', 'string'],
+            'link' => ['sometimes', 'url'],
+            'description' => ['sometimes', 'string'],
         ];
     }
 }

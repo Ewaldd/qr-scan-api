@@ -16,7 +16,7 @@ class QrScanResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'link' => $this->name,
+            'link' => $this->link,
             'description' => $this->description,
         ];
     }

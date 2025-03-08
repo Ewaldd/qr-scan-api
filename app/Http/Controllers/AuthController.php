@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\WrongLoginDataException;
-use App\Http\Requests\UserLoginRequest;
-use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\Auth\UserLoginRequest;
+use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;

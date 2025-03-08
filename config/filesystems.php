@@ -60,6 +60,15 @@ return [
             'report' => false,
         ],
 
+        'qr_scans' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/qr_scans'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*
